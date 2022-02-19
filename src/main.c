@@ -1,8 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "include/bfinterpreter.h"
 
-#define MAX_PROGRAM_LENGTH 1000
 #define MAX_BRAINFUCK_MEMORY 1000
+
+int file_size(FILE *file) {
+    fseek(file, 0L, SEEK_END);
+    int file_length = ftell(file);
+    rewind(file);
+    return file_length;
+}
 
 /**
  * Reads the brainfuck program file given by the first argument.
@@ -20,8 +27,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-
-    char program_file_content[MAX_PROGRAM_LENGTH];
+    char* program_file_content = malloc(file_size(program_file));
     int buffer;
     int pos = 0;
     while ((buffer = fgetc(program_file)) != EOF) {
@@ -35,5 +41,9 @@ int main(int argc, char *argv[]) {
         inputs = "";
     }
 
-    return run(program_file_content, inputs);
+    int interpreter_exit_code = run(program_file_content, inputs);
+
+    free(program_file_content);
+
+    return interpreter_exit_code;
 }
