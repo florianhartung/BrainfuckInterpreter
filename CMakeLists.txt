@@ -3,4 +3,4 @@ project(BrainfuckInterpreter C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(BrainfuckInterpreter main.c)
+add_executable(BrainfuckInterpreter src/main.c src/include/bfinterpreter.h src/bfinterpreter.c)
